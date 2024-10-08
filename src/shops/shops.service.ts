@@ -1,26 +1,27 @@
-import { Injectable } from '@nestjs/common';
-import { CreateShopDto } from './dto/create-shop.dto';
-import { UpdateShopDto } from './dto/update-shop.dto';
+import { Injectable } from '@nestjs/common'
+import { CreateShopDto } from './dto/create-shop.dto'
+import { UpdateShopDto } from './dto/update-shop.dto'
+import { Shop } from './shops.model'
 
 @Injectable()
 export class ShopsService {
-  create(createShopDto: CreateShopDto) {
-    return 'This action adds a new shop';
-  }
+	async create(createShopDto: CreateShopDto) {
+		return 'This action adds a new shop'
+	}
 
-  findAll() {
-    return `This action returns all shops`;
-  }
+	async findAll() {
+		return Shop.name
+	}
 
-  findOne(id: number) {
-    return `This action returns a #${id} shop`;
-  }
+	async findOne(id: number) {
+		return `This action returns a #${id} shop`
+	}
 
-  update(id: number, updateShopDto: UpdateShopDto) {
-    return `This action updates a #${id} shop`;
-  }
+	async update(id: number, updateShopDto: UpdateShopDto) {
+		return `This action updates a #${id} shop`
+	}
 
-  remove(id: number) {
-    return `This action removes a #${id} shop`;
-  }
+	async remove(id: number) {
+		return `This action removes a #${id} shop`
+	}
 }

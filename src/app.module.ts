@@ -5,6 +5,8 @@ import { mongoConfig } from './config/mongo.config'
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ShopsModule } from './shops/shops.module';
+import { CountriesModule } from './countries/countries.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
 	imports: [
@@ -19,7 +21,9 @@ import { ShopsModule } from './shops/shops.module';
 		}),
 		UsersModule,
 		AuthModule,
-		ShopsModule
+		ShopsModule,
+		CountriesModule,
+		CategoriesModule
 	],
 	controllers: [],
 	providers: []

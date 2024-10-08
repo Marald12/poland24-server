@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { HydratedDocument } from 'mongoose'
+import mongoose, { HydratedDocument } from 'mongoose'
+import { Country } from '../countries/countries.model'
+import { Category } from '../categories/categories.model'
 
 export type ShopDocument = HydratedDocument<Shop>
 
@@ -21,6 +23,14 @@ export class Shop {
 
 	@Prop()
 	bannerPath: string
+
+	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: Country.name }] })
+	countries: Country[]
+
+	@Prop({
+		type: [{ type: mongoose.Schema.Types.ObjectId, ref: Category.name }]
+	})
+	categories: Category[]
 }
 
 export const ShopSchema = SchemaFactory.createForClass(Shop)
