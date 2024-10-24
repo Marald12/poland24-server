@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 import { mongoConfig } from './config/mongo.config'
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { ShopsModule } from './shops/shops.module';
-import { CountriesModule } from './countries/countries.module';
-import { CategoriesModule } from './categories/categories.module';
+import { UsersModule } from './users/users.module'
+import { AuthModule } from './auth/auth.module'
+import { ShopsModule } from './shops/shops.module'
+import { CountriesModule } from './countries/countries.module'
+import { CategoriesModule } from './categories/categories.module'
+import { RolesModule } from './roles/roles.module';
 
 @Module({
 	imports: [
@@ -23,7 +24,8 @@ import { CategoriesModule } from './categories/categories.module';
 		AuthModule,
 		ShopsModule,
 		CountriesModule,
-		CategoriesModule
+		CategoriesModule,
+		RolesModule
 	],
 	controllers: [],
 	providers: []

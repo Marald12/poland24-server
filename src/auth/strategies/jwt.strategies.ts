@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { User, UserDocument } from '../users/users.model'
+import { User, UserDocument } from '../../users/users.model'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -20,6 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 	}
 
 	async validate({ _id }: { _id: Pick<UserDocument, '_id'> }) {
-		return await this.userModel.findById(_id).exec()
+		return await this.userModel.findById(_id).populate('role').exec()
 	}
 }

@@ -10,7 +10,10 @@ export type ShopDocument = HydratedDocument<Shop>
 })
 export class Shop {
 	@Prop()
-	name: string
+	title: string
+
+	@Prop()
+	description: string
 
 	@Prop()
 	commissionPercentage: number

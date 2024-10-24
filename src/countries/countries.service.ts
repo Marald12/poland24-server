@@ -1,26 +1,36 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCountryDto } from './dto/create-country.dto';
-import { UpdateCountryDto } from './dto/update-country.dto';
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { CreateCountryDto } from './dto/create-country.dto'
+import { UpdateCountryDto } from './dto/update-country.dto'
+import { InjectModel } from '@nestjs/mongoose'
+import { Country, CountryDocument } from './countries.model'
+import { Model } from 'mongoose'
 
 @Injectable()
 export class CountriesService {
-  create(createCountryDto: CreateCountryDto) {
-    return 'This action adds a new country';
-  }
+	constructor(
+		@InjectModel(Country.name) private readonly countryModel: Model<Country>
+	) {}
 
-  findAll() {
-    return `This action returns all countries`;
-  }
+	async create(dto: CreateCountryDto) {
+		return await this.countryModel.create({ name: dto.name })
+	}
 
-  findOne(id: number) {
-    return `This action returns a #${id} country`;
-  }
+	async findAll() {
+		return await this.countryModel.find().exec()
+	}
 
-  update(id: number, updateCountryDto: UpdateCountryDto) {
-    return `This action updates a #${id} country`;
-  }
+	async findOne(id: string | Pick<CountryDocument, '_id'>) {
+		const country = await this.countryModel.findById(id)
+		if (!country) throw new NotFoundException('Страна не найдена')
 
-  remove(id: number) {
-    return `This action removes a #${id} country`;
-  }
+		return country
+	}
+
+	async update(id: number, updateCountryDto: UpdateCountryDto) {
+		return `This action updates a #${id} country`
+	}
+
+	async remove(id: number) {
+		return `This action removes a #${id} country`
+	}
 }
