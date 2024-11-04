@@ -11,6 +11,7 @@ import { ShopsService } from './shops.service'
 import { CreateShopDto } from './dto/create-shop.dto'
 import { UpdateShopDto } from './dto/update-shop.dto'
 import { CheckRole } from '../auth/roles.guard'
+import { IShopFilters } from './shops.interface'
 
 @Controller('shops')
 export class ShopsController {
@@ -23,8 +24,8 @@ export class ShopsController {
 	}
 
 	@Get()
-	findAll() {
-		return this.shopsService.findAll()
+	findAll(@Body() filters: IShopFilters) {
+		return this.shopsService.findAll(filters)
 	}
 
 	@Get(':id')

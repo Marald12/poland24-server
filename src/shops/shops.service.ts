@@ -7,6 +7,7 @@ import { Model } from 'mongoose'
 import { CountriesService } from '../countries/countries.service'
 import { CategoriesService } from '../categories/categories.service'
 import { UserDocument } from '../users/users.model'
+import { IShopFilters } from './shops.interface'
 
 @Injectable()
 export class ShopsService {
@@ -28,11 +29,39 @@ export class ShopsService {
 		})
 	}
 
-	async findAll() {
-		return await this.shopsModel
+	async findAll(filters?: IShopFilters) {
+		let tempShops: Shop[] = []
+
+		const shops = await this.shopsModel
 			.find()
 			.populate(['countries', 'categories'])
 			.exec()
+
+		if (filters.countries) {
+			filters.countries.map(id => {
+				shops.map(item => {
+					item.countries.map(item2 => {
+						// @ts-ignore
+						if (item2._id == id) tempShops.push(item)
+					})
+				})
+			})
+		}
+
+		if (filters.categories) {
+			filters.categories.map(id => {
+				shops.map(item => {
+					item.categories.map(item2 => {
+						// @ts-ignore
+						if (item2._id == id) tempShops.push(item)
+					})
+				})
+			})
+		}
+
+		return tempShops.filter((number, index, numbers) => {
+			return numbers.indexOf(number) !== index
+		})
 	}
 
 	async findOne(id: string | Pick<UserDocument, '_id'>) {

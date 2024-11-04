@@ -7,7 +7,9 @@ import { AuthModule } from './auth/auth.module'
 import { ShopsModule } from './shops/shops.module'
 import { CountriesModule } from './countries/countries.module'
 import { CategoriesModule } from './categories/categories.module'
-import { RolesModule } from './roles/roles.module';
+import { RolesModule } from './roles/roles.module'
+import { MediaModule } from './media/media.module'
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
 	imports: [
@@ -25,7 +27,9 @@ import { RolesModule } from './roles/roles.module';
 		ShopsModule,
 		CountriesModule,
 		CategoriesModule,
-		RolesModule
+		RolesModule,
+		MediaModule,
+		OrdersModule
 	],
 	controllers: [],
 	providers: []
