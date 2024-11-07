@@ -5,12 +5,14 @@ import { UserDocument } from '../users/users.model'
 import { CreateUserDto } from '../users/dto/create-user.dto'
 import { AuthDto } from './auth.dto'
 import { compare } from 'bcryptjs'
+import { OrdersService } from '../orders/orders.service'
 
 @Injectable()
 export class AuthService {
 	constructor(
 		private readonly jwtService: JwtService,
-		private readonly usersService: UsersService
+		private readonly usersService: UsersService,
+		private readonly ordersService: OrdersService
 	) {}
 
 	async login(dto: AuthDto) {
@@ -24,7 +26,11 @@ export class AuthService {
 	}
 
 	async register(dto: CreateUserDto) {
+		const orders = await this.ordersService.findAllAndFilterForEmail(dto.email)
 		const user = await this.usersService.create(dto)
+		await user.updateOne({
+			orders
+		})
 
 		return await this.returnUserFields(user)
 	}

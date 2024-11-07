@@ -60,6 +60,16 @@ export class UsersService {
 		return user
 	}
 
+	async checkUserByEmail(email: string) {
+		const user = await this.userModel.findOne({ email })
+		if (user)
+			throw new BadRequestException(
+				'Пользователь с таким E-mail уже зарегестрирован'
+			)
+
+		return
+	}
+
 	async findOneByEmail(email: string) {
 		const user = await this.userModel.findOne({ email })
 		if (!user) throw new NotFoundException('Пользователь не найден')

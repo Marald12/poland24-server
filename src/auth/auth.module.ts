@@ -10,10 +10,12 @@ import { User, UserSchema } from '../users/users.model'
 import { UsersService } from '../users/users.service'
 import { UsersModule } from '../users/users.module'
 import { Role, RoleSchema } from '../roles/roles.model'
+import { Order, OrderSchema } from '../orders/orders.model'
+import { OrdersService } from '../orders/orders.service'
 
 @Module({
 	controllers: [AuthController],
-	providers: [AuthService, JwtStrategy, UsersService],
+	providers: [AuthService, JwtStrategy, UsersService, OrdersService],
 	imports: [
 		JwtModule.registerAsync({
 			imports: [ConfigModule],
@@ -22,7 +24,8 @@ import { Role, RoleSchema } from '../roles/roles.model'
 		}),
 		MongooseModule.forFeature([
 			{ name: User.name, schema: UserSchema },
-			{ schema: RoleSchema, name: Role.name }
+			{ schema: RoleSchema, name: Role.name },
+			{ name: Order.name, schema: OrderSchema }
 		]),
 		UsersModule
 	]

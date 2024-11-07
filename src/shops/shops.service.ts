@@ -18,6 +18,7 @@ export class ShopsService {
 	) {}
 
 	async create(dto: CreateShopDto) {
+		// Проверка на 404 ошибку
 		for (let i in dto.countries)
 			await this.countriesService.findOne(dto.countries[i])
 
@@ -31,7 +32,6 @@ export class ShopsService {
 
 	async findAll(filters?: IShopFilters) {
 		let tempShops: Shop[] = []
-
 		const shops = await this.shopsModel
 			.find()
 			.populate(['countries', 'categories'])
@@ -59,9 +59,13 @@ export class ShopsService {
 			})
 		}
 
-		return tempShops.filter((number, index, numbers) => {
-			return numbers.indexOf(number) !== index
-		})
+		if (filters.categories || filters.countries) {
+			return tempShops.filter((number, index, numbers) => {
+				return numbers.indexOf(number) !== index
+			})
+		}
+
+		return shops
 	}
 
 	async findOne(id: string | Pick<UserDocument, '_id'>) {

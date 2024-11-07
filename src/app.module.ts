@@ -10,6 +10,7 @@ import { CategoriesModule } from './categories/categories.module'
 import { RolesModule } from './roles/roles.module'
 import { MediaModule } from './media/media.module'
 import { OrdersModule } from './orders/orders.module';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
 	imports: [
@@ -29,7 +30,8 @@ import { OrdersModule } from './orders/orders.module';
 		CategoriesModule,
 		RolesModule,
 		MediaModule,
-		OrdersModule
+		OrdersModule,
+		ReviewsModule
 	],
 	controllers: [],
 	providers: []
