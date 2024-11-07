@@ -50,9 +50,18 @@ export class Order {
 
 	@Prop()
 	isUsed: boolean
-	
+
 	@Prop()
 	summa: number
+
+	@Prop({ default: 'Комплектуется' })
+	status: 'Выполнен' | 'Комплектуется' | 'Отменен' | 'Не выполнен'
+
+	@Prop()
+	invoice?: string
+
+	@Prop()
+	prepayment?: number
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order)

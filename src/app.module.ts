@@ -11,6 +11,7 @@ import { RolesModule } from './roles/roles.module'
 import { MediaModule } from './media/media.module'
 import { OrdersModule } from './orders/orders.module';
 import { ReviewsModule } from './reviews/reviews.module';
+import { RequestsModule } from './requests/requests.module';
 
 @Module({
 	imports: [
@@ -31,7 +32,8 @@ import { ReviewsModule } from './reviews/reviews.module';
 		RolesModule,
 		MediaModule,
 		OrdersModule,
-		ReviewsModule
+		ReviewsModule,
+		RequestsModule
 	],
 	controllers: [],
 	providers: []

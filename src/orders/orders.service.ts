@@ -5,6 +5,7 @@ import { Model } from 'mongoose'
 import { CreateOrderForNoAuthDto } from './dto/create-order-for-no-auth.dto'
 import { CreateOrderForAuthDto } from './dto/create-order-for-auth.dto'
 import { UsersService } from '../users/users.service'
+import { UpdateOrderDto } from './dto/update-order.dto'
 
 @Injectable()
 export class OrdersService {
@@ -69,5 +70,14 @@ export class OrdersService {
 		if (!order) throw new NotFoundException('Заказ не найден')
 
 		return order
+	}
+
+	async update(dto: UpdateOrderDto, orderId: string) {
+		const order = await this.findOne(orderId)
+		await order.updateOne({
+			...dto
+		})
+
+		return await this.findOne(orderId)
 	}
 }
