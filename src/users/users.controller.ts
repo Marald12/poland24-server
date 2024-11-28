@@ -10,6 +10,8 @@ import {
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { CurrentUser } from './users.decorator'
+import { Auth } from '../auth/auth.guard'
 
 @Controller('users')
 export class UsersController {
@@ -27,6 +29,12 @@ export class UsersController {
 
 	@Get(':id')
 	findOne(@Param('id') id: string) {
+		return this.usersService.findOneById(id)
+	}
+
+	@Get('get-profile')
+	@Auth()
+	getProfile(@CurrentUser('_id') id: string) {
 		return this.usersService.findOneById(id)
 	}
 
