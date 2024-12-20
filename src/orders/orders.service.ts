@@ -66,7 +66,7 @@ export class OrdersService {
 	}
 
 	async findOne(id: string) {
-		const order = await this.orderModel.findOne({ _id: id })
+		const order = await this.orderModel.findOne({ _id: id }).populate(['user'])
 		if (!order) throw new NotFoundException('Заказ не найден')
 
 		return order

@@ -5,13 +5,13 @@ import {
 	Get,
 	Param,
 	Patch,
-	Post
+	Post,
+	Query
 } from '@nestjs/common'
 import { ShopsService } from './shops.service'
 import { CreateShopDto } from './dto/create-shop.dto'
 import { UpdateShopDto } from './dto/update-shop.dto'
 import { CheckRole } from '../auth/roles.guard'
-import { IShopFilters } from './shops.interface'
 
 @Controller('shops')
 export class ShopsController {
@@ -23,9 +23,19 @@ export class ShopsController {
 		return this.shopsService.create(createShopDto)
 	}
 
+	@Get('filters')
+	findFilters(
+		@Query('countries') countriesQuery?: string | undefined,
+		@Query('categories') categoriesQuery?: string | undefined
+	) {
+		const countries = countriesQuery?.split(',')
+		const categories = categoriesQuery?.split(',')
+		return this.shopsService.findFilters({ countries, categories })
+	}
+
 	@Get()
-	findAll(@Body() filters: IShopFilters) {
-		return this.shopsService.findAll(filters)
+	findAll() {
+		return this.shopsService.findAll()
 	}
 
 	@Get(':id')

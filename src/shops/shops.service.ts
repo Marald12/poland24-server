@@ -30,46 +30,48 @@ export class ShopsService {
 		})
 	}
 
-	async findAll(filters?: IShopFilters) {
-		let tempShops: Shop[] = []
+	async findAll() {
+		return await this.shopsModel
+			.find()
+			.populate(['countries', 'categories'])
+			.exec()
+	}
+
+	async findFilters(filters?: IShopFilters) {
 		const shops = await this.shopsModel
 			.find()
 			.populate(['countries', 'categories'])
 			.exec()
 
-		if (filters.countries) {
-			filters.countries.map(id => {
-				shops.map(item => {
-					item.countries.map(item2 => {
-						// @ts-ignore
-						if (item2._id == id) tempShops.push(item)
-					})
-				})
-			})
-		}
-
 		if (filters.categories) {
-			filters.categories.map(id => {
-				shops.map(item => {
-					item.categories.map(item2 => {
-						// @ts-ignore
-						if (item2._id == id) tempShops.push(item)
-					})
-				})
-			})
+			return await this.shopsModel
+				.find({ categories: { $in: filters.categories } })
+				.populate(['countries', 'categories'])
+				.exec()
 		}
 
-		if (filters.categories || filters.countries) {
-			return tempShops.filter((number, index, numbers) => {
-				return numbers.indexOf(number) !== index
-			})
+		if (filters.countries) {
+			return await this.shopsModel
+				.find({ countries: { $in: filters.countries } })
+				.populate(['countries', 'categories'])
+				.exec()
+		}
+
+		if (filters.countries && filters.categories) {
+			return await this.shopsModel
+				.find({
+					categories: { $in: filters.categories },
+					countries: { $in: filters.countries }
+				})
+				.populate(['countries', 'categories'])
+				.exec()
 		}
 
 		return shops
 	}
 
 	async findOne(id: string | Pick<UserDocument, '_id'>) {
-		const shop = await this.shopsModel.findOne()
+		const shop = await this.shopsModel.findById(id)
 		if (!shop) throw new NotFoundException('Магазин не найден')
 
 		return shop

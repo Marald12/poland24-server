@@ -1,14 +1,5 @@
-import {
-	Body,
-	Controller,
-	Delete,
-	Get,
-	Param,
-	Patch,
-	Post
-} from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common'
 import { UsersService } from './users.service'
-import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { CurrentUser } from './users.decorator'
 import { Auth } from '../auth/auth.guard'
@@ -17,9 +8,10 @@ import { Auth } from '../auth/auth.guard'
 export class UsersController {
 	constructor(private readonly usersService: UsersService) {}
 
-	@Post()
-	create(@Body() createUserDto: CreateUserDto) {
-		return this.usersService.create(createUserDto)
+	@Get('get-profile')
+	@Auth()
+	getProfile(@CurrentUser('_id') id: string) {
+		return this.usersService.findOneById(id)
 	}
 
 	@Get()
@@ -32,15 +24,10 @@ export class UsersController {
 		return this.usersService.findOneById(id)
 	}
 
-	@Get('get-profile')
+	@Patch()
 	@Auth()
-	getProfile(@CurrentUser('_id') id: string) {
-		return this.usersService.findOneById(id)
-	}
-
-	@Patch(':id')
-	update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-		return this.usersService.update(+id, updateUserDto)
+	update(@CurrentUser('_id') id: string, @Body() updateUserDto: UpdateUserDto) {
+		return this.usersService.update(id, updateUserDto)
 	}
 
 	@Delete(':id')

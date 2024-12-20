@@ -54,7 +54,9 @@ export class UsersService {
 	}
 
 	async findOneById(id: string) {
-		const user = await this.userModel.findOne({ _id: id }).populate(['role'])
+		const user = await this.userModel
+			.findById(id)
+			.populate(['role', 'orders', 'reviews'])
 		if (!user) throw new NotFoundException('Пользователь не найден')
 
 		return user
@@ -77,8 +79,35 @@ export class UsersService {
 		return user
 	}
 
-	async update(id: number, updateUserDto: UpdateUserDto) {
-		return `This action updates a #${id} user`
+	async update(id: string, { email, password, ...dto }: UpdateUserDto) {
+		let tempDto: UpdateUserDto = { ...dto }
+		const user = await this.findOneById(id)
+
+		if (email) {
+			const tempUser = await this.findOneByEmail(email)
+			if (tempUser)
+				throw new BadRequestException(
+					'Пользователь с таким e-mail уже существует'
+				)
+
+			tempDto = {
+				...tempDto,
+				email: email
+			}
+		}
+		if (password) {
+			const salt = await genSalt(10)
+			const hashPassword = await hash(password, salt)
+
+			tempDto = {
+				...tempDto,
+				password: hashPassword
+			}
+		}
+
+		await user.updateOne(tempDto)
+
+		return await this.findOneById(id)
 	}
 
 	async remove(id: number) {

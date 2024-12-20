@@ -33,7 +33,16 @@ export class ReviewsService {
 		return review
 	}
 
-	async findAll() {
+	async findAll(shopId?: string) {
+		if (shopId) {
+			return await this.reviewModel
+				.find({
+					shop: shopId
+				})
+				.populate(['user', 'shop'])
+				.exec()
+		}
+
 		return await this.reviewModel.find().populate(['user', 'shop']).exec()
 	}
 
