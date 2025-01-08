@@ -52,4 +52,14 @@ export class ReviewsService {
 
 		return review
 	}
+
+	async findByProfile(userId: string) {
+		const reviews = await this.reviewModel
+			.find({ user: userId })
+			.populate(['user', 'shop'])
+			.exec()
+		if (!reviews) throw new NotFoundException('Отзывы не найдены')
+
+		return reviews
+	}
 }

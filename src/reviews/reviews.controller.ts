@@ -14,6 +14,12 @@ export class ReviewsController {
 		return this.reviewsService.create(dto, userId)
 	}
 
+	@Get('by-profile')
+	@Auth()
+	findByProfile(@CurrentUser('_id') userId: string) {
+		return this.reviewsService.findByProfile(userId)
+	}
+
 	@Get()
 	findAll(@Query('shop') shop: string) {
 		return this.reviewsService.findAll(shop)

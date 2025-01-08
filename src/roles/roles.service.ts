@@ -55,9 +55,6 @@ export class RolesService {
 
 		// @ts-ignore
 		if (user.role.id !== roleId) {
-			// @ts-ignore
-			console.log(user.role._id)
-			console.log(roleId)
 			throw new BadRequestException('У пользователя нету данной роли')
 		}
 

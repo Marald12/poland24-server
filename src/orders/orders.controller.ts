@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common'
+import {
+	Body,
+	Controller,
+	Get,
+	Param,
+	Patch,
+	Post,
+	Query
+} from '@nestjs/common'
 import { OrdersService } from './orders.service'
 import { CreateOrderForNoAuthDto } from './dto/create-order-for-no-auth.dto'
 import { Auth } from '../auth/auth.guard'
@@ -23,6 +31,16 @@ export class OrdersController {
 	@Post('for-no-auth')
 	createForNoAuth(@Body() dto: CreateOrderForNoAuthDto) {
 		return this.ordersService.createForNoAuth(dto)
+	}
+
+	@Get('pagination')
+	@Auth()
+	findInPagination(
+		@Query('limit') limit: string,
+		@Query('skip') skip: string,
+		@CurrentUser('_id') id: string
+	) {
+		return this.ordersService.findByPagination(id, +skip, +limit)
 	}
 
 	@Get()

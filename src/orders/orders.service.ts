@@ -72,6 +72,29 @@ export class OrdersService {
 		return order
 	}
 
+	async findByPagination(userId: string, skip: number, limit: number) {
+		const user = await this.usersService.findOneById(userId)
+
+		const ordersAuth = await this.orderModel
+			.find({
+				user: { _id: userId }
+			})
+			.skip(skip)
+			.limit(limit)
+			.populate(['user'])
+			.exec()
+		const ordersNoAuth = await this.orderModel
+			.find({
+				email: user.email
+			})
+			.skip(skip)
+			.limit(limit)
+			.populate(['user'])
+			.exec()
+
+		return [...ordersAuth, ...ordersNoAuth]
+	}
+
 	async update(dto: UpdateOrderDto, orderId: string) {
 		const order = await this.findOne(orderId)
 		await order.updateOne({
