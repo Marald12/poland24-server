@@ -23,7 +23,7 @@ import { RequestsModule } from './requests/requests.module';
 			imports: [ConfigModule],
 			inject: [ConfigService],
 			useFactory: mongoConfig
-		}),*/
+		}),
 		UsersModule,
 		AuthModule,
 		ShopsModule,
@@ -33,7 +33,7 @@ import { RequestsModule } from './requests/requests.module';
 		MediaModule,
 		OrdersModule,
 		ReviewsModule,
-		RequestsModule
+		RequestsModule*/
 	],
 	controllers: [],
 	providers: []
