@@ -4,6 +4,14 @@ import { ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
+	
+	try {
+		const response = await axios.get('https://api.ipify.org?format=json');
+		console.log(`Your server's IP address is: ${response.data.ip}`);
+	} catch (error) {
+		console.error('Error fetching IP:', error);
+	}
+	
 	app.enableCors()
 	app.setGlobalPrefix('api')
 	app.useGlobalPipes(new ValidationPipe())
