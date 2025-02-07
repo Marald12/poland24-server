@@ -19,7 +19,7 @@ import { RequestsModule } from './requests/requests.module';
 			envFilePath: '.env',
 			isGlobal: true
 		}),
-		/*MongooseModule.forRootAsync({
+		MongooseModule.forRootAsync({
 			imports: [ConfigModule],
 			inject: [ConfigService],
 			useFactory: mongoConfig
@@ -33,7 +33,7 @@ import { RequestsModule } from './requests/requests.module';
 		MediaModule,
 		OrdersModule,
 		ReviewsModule,
-		RequestsModule*/
+		RequestsModule
 	],
 	controllers: [],
 	providers: []
