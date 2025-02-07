@@ -32,6 +32,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/multer": "^1.4.12",
     "app-root-path": "^3.1.0",
+    "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
